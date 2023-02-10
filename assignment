@@ -1,0 +1,94 @@
+using System;
+using System.Collections.Generic;
+
+namespace ClientInformationApp
+{
+    class Client
+    {
+        public string ClientID { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public double PurchaseAmount { get; set; }
+    }
+
+    class Program
+    {
+        static List<Client> clients = new List<Client>();
+
+        static void Main(string[] args)
+        {
+            int choice;
+            do
+            {
+                Console.WriteLine("1. Create a new client");
+                Console.WriteLine("2. Display a client");
+                Console.WriteLine("3. Display all clients");
+                Console.WriteLine("4. Exit the application");
+                Console.WriteLine("Enter your choice: ");
+                choice = int.Parse(Console.ReadLine());
+
+                switch (choice)
+                {
+                    case 1:
+                        CreateClient();
+                        break;
+                    case 2:
+                        DisplayClient();
+                        break;
+                    case 3:
+                        DisplayAllClients();
+                        break;
+                }
+            } while (choice != 4);
+        }
+
+        static void CreateClient()
+        {
+            Console.WriteLine("Enter Client ID: ");
+            string clientID = Console.ReadLine();
+            Console.WriteLine("Enter First Name: ");
+            string firstName = Console.ReadLine();
+            Console.WriteLine("Enter Last Name: ");
+            string lastName = Console.ReadLine();
+            Console.WriteLine("Enter Purchase Amount: ");
+            double purchaseAmount = double.Parse(Console.ReadLine());
+
+            clients.Add(new Client { ClientID = clientID, FirstName = firstName, LastName = lastName, PurchaseAmount = purchaseAmount });
+
+            Console.WriteLine("Do you want to enter another client? (y/n)");
+            string answer = Console.ReadLine();
+            if (answer == "y")
+            {
+                CreateClient();
+            }
+        }
+
+        static void DisplayClient()
+        {
+            Console.WriteLine("Enter Client ID: ");
+            string clientID = Console.ReadLine();
+
+            Client client = clients.Find(c => c.ClientID == clientID);
+            if (client != null)
+            {
+                Console.WriteLine("Client ID: " + client.ClientID);
+                Console.WriteLine("First Name: " + client.FirstName);
+                Console.WriteLine("Last Name: " + client.LastName);
+                Console.WriteLine("Purchase Amount: $" + client.PurchaseAmount);
+            }
+            else
+            {
+                Console.WriteLine("Client not found.");
+            }
+        }
+
+        static void DisplayAllClients()
+        {
+            Console.WriteLine("Client ID\tFirst Name\tLast Name\tPurchase Amount");
+            foreach (Client client in clients)
+            {
+                Console.WriteLine(client.ClientID + "\t\t" + client.FirstName + "\t\t" + client.LastName + "\t\t$" + client.PurchaseAmount);
+            }
+        }
+    }
+}
